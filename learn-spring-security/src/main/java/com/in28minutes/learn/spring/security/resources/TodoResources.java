@@ -31,7 +31,7 @@ public Todo displayTodosForSpecficUser(@PathVariable String username ) {
 
 	@PostMapping("/users/{username}/todos")
 public void createTodosForSpecficUser(@PathVariable String username,@RequestBody Todo todo ) {
-	logger.info("creating specific todo {} for specifi user {}",todo,username);
+	logger.info("creating a specific todo {} for specifi user {}",todo,username);
 }	
 
 	record Todo(String username,String desc) {}
