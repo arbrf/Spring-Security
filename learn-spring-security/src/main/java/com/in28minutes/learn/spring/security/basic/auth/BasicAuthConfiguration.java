@@ -9,11 +9,12 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
-@Configuration
+//@Configuration
 public class BasicAuthConfiguration {
 
     @Bean
@@ -31,13 +32,16 @@ public class BasicAuthConfiguration {
     public UserDetailsService userDetails(DataSource dataSource) {
         var user = org.springframework.security.core.userdetails.User
                 .withUsername("in28minutes")
-                .password("{noop}dummy")
+//                .password("{noop}dummy")
+                .password("dummy")
+                .passwordEncoder(str->passwordEncoder().encode(str))
                 .roles("USER")
                 .build();
 
         var admin = org.springframework.security.core.userdetails.User
                 .withUsername("admin")
-                .password("{noop}dummy")
+                .password("dummy")
+                .passwordEncoder(str->passwordEncoder().encode(str))
                 .roles("ADMIN","USER")
                 .build();
        var jdbcUserDetailsManager=new JdbcUserDetailsManager(dataSource);
@@ -52,5 +56,10 @@ public class BasicAuthConfiguration {
                 .setType(EmbeddedDatabaseType.H2)
                 .addScript(JdbcDaoImpl.DEFAULT_USER_SCHEMA_DDL_LOCATION)
                 .build(); // <-- Add this line to fix the type mismatch
+    }
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+    	
+    	return new BCryptPasswordEncoder(10);
     }
 }

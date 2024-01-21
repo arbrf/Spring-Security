@@ -8,7 +8,16 @@ group = 'com.in28minutes'
 version = '0.0.1-SNAPSHOT'
 
 java {
-    sourceCompatibility = '17'
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+    
+    // Enable debugging information
+    options.debugOptions {
+        buildDebugInfo true
+        sourceFile true
+        includeNonPublic true
+    }
 }
 
 repositories {
@@ -16,6 +25,9 @@ repositories {
 }
 
 dependencies {
+    // OAuth2 Resource Server
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+
     // Spring Boot starters
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
