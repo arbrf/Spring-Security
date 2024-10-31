@@ -1,5 +1,6 @@
 package com.spring_security.Spring.Security.config;
 
+import com.spring_security.Spring.Security.Da0.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
@@ -27,7 +29,8 @@ public class SecurityConfig {
 
     @Autowired
     private DataSource dataSource;
-
+    @Autowired
+    private CustomUserDetailsService customUserDetailsService;
 
 
     @Bean
@@ -57,7 +60,8 @@ public class SecurityConfig {
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider(UserDetailsService userDetailsService) {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService);
+        //authProvider.setUserDetailsService(userDetailsService);
+        authProvider.setUserDetailsService(customUserDetailsService);
         return authProvider;
     }
     //InMemeory userId and Pwd
@@ -74,16 +78,23 @@ public class SecurityConfig {
     }
 
     @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder()); // for BcryptPasswordEncoding
+    }
+
+
+   /* @Autowired
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication()
                 .dataSource(dataSource)
                 .usersByUsernameQuery("SELECT username, password, enabled FROM users WHERE username = ?")
                 .authoritiesByUsernameQuery("SELECT username, authority FROM authorities WHERE username = ?");
-    }
+    }*/
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .csrf().disable()  // Disable CSRF protection
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/register").permitAll()
                         .anyRequest().authenticated()
@@ -100,8 +111,14 @@ public class SecurityConfig {
         return http.build();
     }
 
-    @Bean
+
+   /* @Bean
     public PasswordEncoder passwordEncoder() {
         return NoOpPasswordEncoder.getInstance();
+    }*/
+
+   public PasswordEncoder passwordEncoder() {
+       System.out.println("Using BCryptPasswordEncoder");
+        return new BCryptPasswordEncoder();
     }
 }
