@@ -16,7 +16,7 @@ public class UserAuthenticationService {
 
     public UserAuthentication registerUser(UserAuthentication user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setVerified(true); // Automatically set as verified after registration
+        user.setVerified(false); // Automatically set as verified after registration
         return userRepo.save(user);
     }
 }

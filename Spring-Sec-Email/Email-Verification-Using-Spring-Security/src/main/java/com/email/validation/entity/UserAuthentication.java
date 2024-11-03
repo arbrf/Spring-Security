@@ -86,6 +86,10 @@ public class UserAuthentication {
         this.id = id;
     }
 
+
+    public boolean getVerified() {
+        return this.isVerified;
+    }
     @Override
     public String toString() {
         return "UserAuthentication{" +
