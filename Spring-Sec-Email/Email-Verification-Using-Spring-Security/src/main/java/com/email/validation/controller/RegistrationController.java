@@ -70,6 +70,17 @@ public class RegistrationController {
         return "login";
     }
 
+    @GetMapping("/login/error")
+    public String showLoginForm(@RequestParam(value = "error", required = false) String error,
+                                @RequestParam(value = "message", required = false) String message,
+                                Model model) {
+        if (error != null) {
+            model.addAttribute("error", message);
+        }
+        return "login";
+    }
+
+
     @GetMapping("/logout")
     public String showlogOutm() {
 

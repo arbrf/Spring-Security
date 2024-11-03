@@ -1,6 +1,7 @@
 package com.email.validation.config;
 
 
+import com.email.validation.exception.CustomAuthenticationFailureHandler;
 import com.email.validation.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -17,7 +18,8 @@ public class SecurityConfig {
 
     @Autowired
     private CustomUserDetailsService userDetailsService;
-
+    @Autowired
+    private CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -43,6 +45,7 @@ public class SecurityConfig {
                 .formLogin(form -> form
                         .loginPage("/login")
                         .defaultSuccessUrl("/home", true) // Redirect to /home on success
+                        .failureHandler(customAuthenticationFailureHandler)
                         .failureUrl("/login?error=true")  // Redirect to /login?error=true on failure
                         .permitAll()
                 )

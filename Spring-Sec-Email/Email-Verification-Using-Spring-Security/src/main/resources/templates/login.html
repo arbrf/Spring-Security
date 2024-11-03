@@ -12,10 +12,8 @@
     Registration successful! You can now log in.
 </div>
 
-<!-- Display error message for incorrect credentials -->
-<div th:if="${param.error}" style="color:red;">
-    Incorrect credentials or user not registered.
-</div>
+<!-- Display error message for incorrect credentials or unverified users -->
+<div th:if="${error}" style="color:red;" th:text="${error}"></div>
 
 <form action="/login" th:action="@{/login}" method="post">
     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
@@ -28,7 +26,6 @@
 
     <button type="submit">Login</button>
 </form>
-
 
 <p>Don't have an account? <a href="/register">Register here</a></p>
 </body>
