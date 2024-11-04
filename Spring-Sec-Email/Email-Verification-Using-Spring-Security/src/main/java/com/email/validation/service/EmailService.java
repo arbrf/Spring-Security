@@ -15,6 +15,7 @@ public class EmailService {
     private JavaMailSender emailSender;
 
     public void sendVerificationEmail(String email, String verificationUrl) {
+
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("sk.davoodh5811@email.com");
         message.setTo("sk.mohammed5811@gmail.com");
@@ -25,10 +26,6 @@ public class EmailService {
         System.out.println("Verification email sent to " + email + " with URL: " + verificationUrl);
     }
 
-    public static void main(String[] args) {
-        EmailService emailService=new EmailService();
-        emailService.sendVerificationEmail("sk.mohammed5811@gmail.com","http://localhost:8080/api/auth/verify?token=55cbd873-ef1a-4853-8eca-caddb11547bd");
-    }
 }
 
 
