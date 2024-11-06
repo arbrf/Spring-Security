@@ -10,6 +10,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+
+import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
@@ -18,11 +22,22 @@ public class SecurityConfig {
     @Autowired
     private CustomUserDetailsService userDetailsService;
     @Autowired
+    private DataSource dataSource;
+    @Autowired
     private CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public PersistentTokenRepository persistentTokenRepository() {
+        JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
+        tokenRepository.setDataSource(dataSource);
+        // Uncomment the following line the first time you run the application to auto-create the tokens table
+        // tokenRepository.setCreateTableOnStartup(true);
+        return tokenRepository;
     }
 
     @Bean
@@ -56,6 +71,7 @@ public class SecurityConfig {
                         .rememberMeParameter("remember-me") // Name of the checkbox in the login form
                         .tokenValiditySeconds(86400) // Validity period in seconds (e.g., 1 day)
                         .userDetailsService(userDetailsService) // Optional: provide a custom UserDetailsService
+                        .tokenRepository(persistentTokenRepository())
                 );
 
         return http.build();
