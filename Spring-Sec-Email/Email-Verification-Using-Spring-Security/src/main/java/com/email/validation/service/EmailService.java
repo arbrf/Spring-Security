@@ -16,15 +16,35 @@ public class EmailService {
 
     public void sendVerificationEmail(String email, String verificationUrl) {
 
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("sk.davoodh5811@email.com");
-        message.setTo("sk.mohammed5811@gmail.com");
-        message.setSubject("Email Verification");
-        message.setText("Please verify your email by clicking on the following link: " + verificationUrl);
 
-        emailSender.send(message);
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("sk.mohammed5811@gmail.com");
+        message.setTo(email);
+        message.setSubject("Congrats Your Profile Shortlisted");
+        message.setText("We are delight to offer u this position this your token  "+verificationUrl); // Set the email body
+        emailSender.send(message); // Send the email
+        System.out.println("Mail Sent Successfully!");
+
         System.out.println("Verification email sent to " + email + " with URL: " + verificationUrl);
     }
+
+
+    public void forgotPassword(String email, String resetPasswordUtl) {
+
+
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("sk.mohammed5811@gmail.com");
+        message.setTo(email);
+        message.setSubject("Congrats Your Profile Shortlisted");
+        message.setText("Please Change this password using this link  "+resetPasswordUtl); // Set the email body
+        emailSender.send(message); // Send the email
+        System.out.println("Mail Sent Successfully!");
+
+        System.out.println("Verification email sent to " + email + " with URL: " + resetPasswordUtl);
+    }
+
+
+
 
 }
 
