@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Account</title>
+</head>
+<body>
+<h2>Your Account</h2>
+
+<p>Account Name: <span th:text="${accountDetails.name}"></span></p>
+<p>Email: <span th:text="${accountDetails.email}"></span></p>
+
+<!-- Link to go back to the home page -->
+<a href="/home">Back to Home</a>
+</body>
+</html>
