@@ -6,6 +6,7 @@ import com.email.validation.entity.UserAuthentication;
 import com.email.validation.entity.VerificationToken;
 import com.email.validation.repo.UserAuthenticationRepository;
 import com.email.validation.repo.VerificationTokenRepository;
+import com.email.validation.service.CookieExample;
 import com.email.validation.service.EmailService;
 import com.email.validation.service.UserAuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,6 +71,7 @@ public class RegistrationController {
 
     @GetMapping("/home")
     public String home() {
+        CookieExample.main();
         return "home"; // Returns the name of the home.html view
     }
 
@@ -90,7 +92,7 @@ public class RegistrationController {
     }
 
 
-    @GetMapping("/logout")
+    @PostMapping("/logout")
     public String showlogOutm() {
 
         return "logout";

@@ -56,7 +56,7 @@ public class SecurityConfig {
         http
                 .requiresChannel(channel -> channel
                         .requestMatchers(new AntPathRequestMatcher("/accounts/**"))
-                        .requiresSecure()  // Enforce HTTPS for /accounts/** paths
+                       .requiresSecure()  // Enforce HTTPS for /accounts/** paths
                 )
                 .authorizeRequests(authorize -> authorize
                         .requestMatchers("/forgot-password","/register", "/login", "/logout", "/css/**", "/js/**", "/reset-password**").permitAll()
@@ -72,6 +72,11 @@ public class SecurityConfig {
                 )
                 .logout(logout -> logout
                         .permitAll()
+                        .logoutUrl("/logout") // Set the logout endpoint URL
+                        .logoutSuccessUrl("/login?logout") // Redirect after successful logout
+                        .deleteCookies("dummyCookie", "remember-me") // Delete cookies after logout
+                        .clearAuthentication(true) // Clear the authentication
+                        .invalidateHttpSession(true)
                 )
                 .rememberMe(rememberMe -> rememberMe
                         .key("uniqueAndSecret") // Set a unique key for hashing tokens
