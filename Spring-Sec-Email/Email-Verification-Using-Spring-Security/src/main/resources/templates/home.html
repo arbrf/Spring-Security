@@ -13,9 +13,11 @@
 <a href="/accounts">Go to Account</a>
 
 <!-- Add a logout link or any other navigation -->
-<form id="logoutForm" action="/logout" method="POST" style="display: inline;">
+<form action="/logout" method="post">
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
     <button type="submit">Logout</button>
 </form>
+
 
 </body>
 </html>

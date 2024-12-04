@@ -71,7 +71,7 @@ public class RegistrationController {
 
     @GetMapping("/home")
     public String home() {
-        CookieExample.main();
+        CookieExample.createCooke();
         return "home"; // Returns the name of the home.html view
     }
 
@@ -93,8 +93,17 @@ public class RegistrationController {
 
 
     @PostMapping("/logout")
-    public String showlogOutm() {
+    public String handleLogoutPost() {
+        // This method handles POST requests to "/logout"
+        // Redirects to the logout confirmation page after logout
+        System.out.println("POSTMAPPNG LOGOUT ");
+        return "redirect:/logout-page";
+    }
 
+    @GetMapping("/logout-page")
+    public String showLogoutPage() {
+        // This method handles GET requests to "/logout-page"
+        // Displays the custom logout page (e.g., logout.html)
         return "logout";
     }
 

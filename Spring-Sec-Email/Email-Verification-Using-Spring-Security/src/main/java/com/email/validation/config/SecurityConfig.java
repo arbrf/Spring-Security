@@ -56,10 +56,10 @@ public class SecurityConfig {
         http
                 .requiresChannel(channel -> channel
                         .requestMatchers(new AntPathRequestMatcher("/accounts/**"))
-                       .requiresSecure()  // Enforce HTTPS for /accounts/** paths
+                        .requiresSecure()  // Enforce HTTPS for /accounts/** paths
                 )
                 .authorizeRequests(authorize -> authorize
-                        .requestMatchers("/forgot-password","/register", "/login", "/logout", "/css/**", "/js/**", "/reset-password**").permitAll()
+                        .requestMatchers("/forgot-password", "/register", "/login", "/logout", "/css/**", "/js/**", "/reset-password**").permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
                         .anyRequest().authenticated()
                 )
@@ -84,9 +84,19 @@ public class SecurityConfig {
                         .tokenValiditySeconds(86400) // Validity period in seconds (e.g., 1 day)
                         .userDetailsService(userDetailsService) // Optional: provide a custom UserDetailsService
                         .tokenRepository(persistentTokenRepository())
+                )
+                .sessionManagement(session -> session
+                        .maximumSessions(1) // Allow only one session per user
+                        .maxSessionsPreventsLogin(false) // Kick out the previous session when a new login occurs
+                        .expiredUrl("/login?expired=true") // Redirect to this URL if the session expires
+                )
+                .csrf(csrf -> csrf
+                        .ignoringRequestMatchers("/api/auth/**", "/logout") // Ignore CSRF for specific endpoints if needed
                 );
 
         return http.build();
     }
 
+
 }
+

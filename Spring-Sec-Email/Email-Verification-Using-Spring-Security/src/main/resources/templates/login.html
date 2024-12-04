@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:c="http://www.w3.org/1999/XSL/Transform">
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
@@ -28,6 +28,9 @@
     <label>
         <input type="checkbox" name="remember-me" /> Remember Me
     </label><br>
+    <c:if test="${param.expired}">
+        <div class="alert alert-warning">Your session has expired. Please log in again.</div>
+    </c:if>
 
     <button type="submit">Login</button>
 </form>

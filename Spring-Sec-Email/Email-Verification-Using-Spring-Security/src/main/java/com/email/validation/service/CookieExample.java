@@ -4,7 +4,7 @@ package com.email.validation.service;
 import jakarta.servlet.http.Cookie;
 
 public class CookieExample {
-    public static void main() {
+    public static void createCooke() {
         // Create a dummy cookie
         Cookie dummyCookie = new Cookie("dummyCookie", "dummyValue");
 
