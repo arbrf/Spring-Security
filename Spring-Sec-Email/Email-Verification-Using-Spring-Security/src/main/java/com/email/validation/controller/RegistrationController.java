@@ -9,6 +9,7 @@ import com.email.validation.repo.VerificationTokenRepository;
 import com.email.validation.service.CookieExample;
 import com.email.validation.service.EmailService;
 import com.email.validation.service.UserAuthenticationService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -169,5 +170,15 @@ public class RegistrationController {
         // Redirect to the login page with a success message
         return "redirect:/login?passwordReset=true";
     }
+
+
+
+    @GetMapping("/invalidate")
+    public String invalidateSession(HttpServletRequest request) {
+        request.getSession().invalidate();
+        return "redirect:/login?invalidated=true";
+    }
+
+
 
 }

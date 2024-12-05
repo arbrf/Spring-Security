@@ -20,4 +20,14 @@
 
 
 </body>
+<script>
+    setTimeout(function() {
+        alert("Your session will expire soon. Please save your work.");
+        setTimeout(function() {
+            // Redirect to the /invalidate endpoint
+            window.location.href = "/invalidate";
+        }, 1000); // 1 second after the alert
+    }, 4000); // 4 seconds before expiration
+</script>
+
 </html>

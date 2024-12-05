@@ -37,6 +37,8 @@
 
 <p>Don't have an account? <a href="/register">Register here</a></p>
 <p><a href="/forgot-password">Forgot Password?</a></p>
-
+<div th:if="${message}" class="alert alert-warning">
+    <p th:text="${message}"></p>
+</div>
 </body>
 </html>
