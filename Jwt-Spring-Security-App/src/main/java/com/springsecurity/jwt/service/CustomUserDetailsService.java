@@ -1,4 +1,4 @@
-package com.springsecurity.jwt.util;
+package com.springsecurity.jwt.service;
 
 import com.springsecurity.jwt.dao.UserEntity;
 import com.springsecurity.jwt.respository.UserRepository;
@@ -8,10 +8,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 
-@Component
+@Service
 public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
     UserRepository repository;
